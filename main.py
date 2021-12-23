@@ -65,7 +65,8 @@ def main(num_elems: int = 200):
 
     fig.set_size_inches(plot_shape[1] * 6, plot_shape[0] * 2.5)
     fig.tight_layout(pad=2.0)
-    fig.suptitle("Epжaн Cocaть Би6y", y=0.995)
+    # fig.suptitle("Epжaн Cocaть Би6y", y=0.995)
+    fig.suptitle("Animated Sorted Algorithms", y=0.995)
     plt.show()
 
 

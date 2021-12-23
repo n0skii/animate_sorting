@@ -19,6 +19,7 @@ def data_gen(num_elems: int):
 
 
 def main(num_elems: int = 200):
+    # uncomment this to edit the starting data size
     # num_elems = 0
     # while not 1 <= num_elems <= 20000:
     #     print("Input an integer from 1 to 20000.")
@@ -26,7 +27,7 @@ def main(num_elems: int = 200):
     #         num_elems = int(input("--> "))
     #     except:
     #         pass
-    
+
     # uncomment what you dont need
     streams_arr = [
         [Streams.selectsort_stream, "Selection Sort"],
@@ -37,6 +38,7 @@ def main(num_elems: int = 200):
         [Streams.radix_stream, "Radix Sort"],
     ]
 
+    # Change plot_shape[1] to reduce the data range (hence the number of columns)
     plot_shape = (len(streams_arr), 3)
     fig, axs_arr = plt.subplots(nrows=plot_shape[0], ncols=plot_shape[1])
 
@@ -55,10 +57,10 @@ def main(num_elems: int = 200):
             ani_list[p_row, p_col] = AnimateSubPlot(
                 cur_data,
                 fig,
-                axs_arr[p_row, p_col] if plot_shape[1] > 1 else axs_arr[p_row],
+                cur_plane,
                 stream=stream_func,
                 # cut_to_frame=random.randint(1, 10),
-                color=np.random.rand(3),
+                color=np.random.rand(3),  # random colot for every plane
             ).ani
 
     fig.set_size_inches(plot_shape[1] * 6, plot_shape[0] * 2.5)

@@ -10,7 +10,7 @@ class AnimateSubPlot(object):
         initial_data: np.ndarray,
         figure: plt.figure,
         plane: plt.Axes,
-        stream: classmethod = Streams.selectsort_stream,
+        stream: staticmethod = Streams.selectsort_stream,
         color: np.ndarray = "blue",
         cut_to_frame: int = 1,
     ):
@@ -19,10 +19,11 @@ class AnimateSubPlot(object):
         self.datalen = len(initial_data)
         self.x_ax = [i for i in range(self.datalen)]
 
-        self.stream: classmethod = stream(data=self.data)
+        self.stream: staticmethod = stream(data=self.data)
 
         self.setup_plot(plane, color)
 
+        # main class animation object
         self.ani = animation.FuncAnimation(figure, self.refresh, interval=0, blit=True)
 
     def setup_plot(self, ax: plt.Axes, color: np.ndarray):

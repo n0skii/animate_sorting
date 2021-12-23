@@ -1,8 +1,14 @@
 import numpy as np
-from numpy.core.arrayprint import _extendLine
 
 
 class Streams(object):
+    """
+    Contains methods in format 
+        >>> def method_name(data: np.ndarray):
+    Can be provided to the animated_scatter.AnimateSubPlot class
+    to use as sorting methods.
+    """
+
     @staticmethod
     def endless_loop(value: np.ndarray):
         while True:

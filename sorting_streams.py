@@ -5,8 +5,11 @@ class Streams(object):
     """
     Contains methods in format 
         >>> def method_name(data: np.ndarray):
-    Can be provided to the animated_scatter.AnimateSubPlot class
-    to use as sorting methods.
+    Can be provided to the animated_scatter.
+    AnimateSubPlot class to use as sorting methods.\n\n
+    End the methods with
+        >>> yield from endless_loop(data)
+    to avoid the IterationStopped exception.
     """
 
     @staticmethod

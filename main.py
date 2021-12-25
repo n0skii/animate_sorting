@@ -40,17 +40,30 @@ def main(num_elems: int = 200):
 
     # Change plot_shape[1] to reduce the data range (hence the number of columns)
     plot_shape = (len(streams_arr), 3)
+
+    # Data generation Process
+    data_dict = {
+        c: data_gen(random.randint(c * num_elems + 35, (c + 1) * num_elems))
+        for c in range(plot_shape[1])
+    }
+    # Leave this line for more randomness
+    # data_dict = None
+
     fig, axs_arr = plt.subplots(nrows=plot_shape[0], ncols=plot_shape[1])
 
     ani_list = np.empty(shape=plot_shape, dtype=FuncAnimation)
     for p_row in range(plot_shape[0]):
         stream_func, sort_name = streams_arr[p_row % len(streams_arr)]
         for p_col in range(plot_shape[1]):
-            num_points = random.randint(p_col * num_elems + 25, (p_col + 1) * num_elems)
-            cur_data = data_gen(num_points)
+            if data_dict is not None:
+                cur_data = data_dict[p_col]
+            else:
+                cur_data = data_gen(
+                    random.randint(p_col * num_elems + 25, (p_col + 1) * num_elems)
+                )
 
             cur_plane = axs_arr[p_row, p_col] if plot_shape[1] > 1 else axs_arr[p_row]
-            cur_plane.set_title(f"{num_points} data points")
+            cur_plane.set_title(f"{len(cur_data)} data points")
             if not p_col:
                 cur_plane.set_ylabel(sort_name)
 

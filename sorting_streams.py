@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 
 class Streams(object):
@@ -124,6 +125,7 @@ class Streams(object):
 
         yield from Streams.endless_loop(data)
 
+    @staticmethod
     def quicksort_norec_stream(data: np.ndarray):
         def partition(l, h):
             i = l - 1
@@ -165,6 +167,7 @@ class Streams(object):
         yield from quicksort_stack(0, len(data) - 1)
         yield from Streams.endless_loop(data)
 
+    @staticmethod
     def radix_stream(data: np.ndarray):
         r = 10
         min_elem, max_elem = min(data), max(data)
@@ -191,3 +194,42 @@ class Streams(object):
 
         yield from Streams.endless_loop(data)
 
+    @staticmethod
+    def bogosort_stream(data: np.ndarray):
+        n = len(data)
+
+        def is_sorted():
+            for i in range(0, n - 1):
+                if data[i] > data[i + 1]:
+                    return False
+            return True
+
+        def shuffle():
+            for i in range(0, n):
+                r = random.randint(0, n - 1)
+                data[i], data[r] = data[r], data[i]
+
+        while not is_sorted():
+            shuffle()
+            yield data
+
+        yield from Streams.endless_loop(data)
+
+    @staticmethod
+    def randsort_stream(data: np.ndarray):
+        n = len(data)
+
+        def is_sorted():
+            for i in range(0, n - 1):
+                if data[i] > data[i + 1]:
+                    return False
+            return True
+
+        while not is_sorted():
+            for i in range(0, n):
+                r = random.randint(0, n - 1)
+                if (i < r and data[i] >= data[r]) or (i > r and data[i] <= data[r]):
+                    data[i], data[r] = data[r], data[i]
+                yield data
+
+        yield from Streams.endless_loop(data)

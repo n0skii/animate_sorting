@@ -4,7 +4,7 @@ import random
 
 class Streams(object):
     """
-    Contains methods in format 
+    Contains methods in format
         >>> def method_name(data: np.ndarray):
     Can be provided to the animated_scatter.
     AnimateSubPlot class to use as sorting methods.\n\n
@@ -77,7 +77,8 @@ class Streams(object):
                 yield from quicksort(low=pi + 1, high=high)
 
         yield from quicksort(
-            0, elem_num,
+            0,
+            elem_num,
         )
 
         yield from Streams.endless_loop(data)
@@ -231,5 +232,35 @@ class Streams(object):
                 if (i < r and data[i] >= data[r]) or (i > r and data[i] <= data[r]):
                     data[i], data[r] = data[r], data[i]
                 yield data
+
+        yield from Streams.endless_loop(data)
+
+    @staticmethod
+    def heapsort_stream(data: np.ndarray):
+        _size = len(data)
+
+        def heapify(n, i):
+            largest = i
+            l = 2 * i + 1
+            r = 2 * i + 2
+
+            if l < n and data[i] < data[l]:
+                largest = l
+
+            if r < n and data[largest] < data[r]:
+                largest = r
+
+            if largest != i:
+                data[i], data[largest] = data[largest], data[i]
+                yield data
+                yield from heapify(n, largest)
+
+        for i in range(_size // 2 - 1, -1, -1):
+            yield from heapify(_size, i)
+
+        for i in range(_size - 1, 0, -1):
+            data[i], data[0] = data[0], data[i]
+            yield data
+            yield from heapify(i, 0)
 
         yield from Streams.endless_loop(data)

@@ -34,14 +34,15 @@ def main(num_elems: int = 200):
         [Streams.shellsort_stream, "Shell Sort"],
         # [Streams.quicksort_stream, "Quick Sort"],
         [Streams.quicksort_norec_stream, "Quick Sort (Stack)"],
+        [Streams.heapsort_stream, "Heapsort"],
         # [Streams.mergesort_stream, "Merge Sort"],
         # [Streams.radix_stream, "Radix Sort"],
-        [Streams.bogosort_stream, "Bogosort"],
-        [Streams.randsort_stream, "Random Sort"],
+        # [Streams.bogosort_stream, "Bogosort"],
+        # [Streams.randsort_stream, "Random Sort"],
     ]
 
     # Change plot_shape[1] to reduce the data range (hence the number of columns)
-    plot_shape = (len(streams_arr), 3)
+    plot_shape = (len(streams_arr), 2)
 
     # Data generation Process
     data_dict = {

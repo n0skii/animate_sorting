@@ -28,13 +28,14 @@ def main(num_elems: int = 200):
     #     except:
     #         pass
 
-    # uncomment what you dont need
+    # comment out the algorithms not needed
     streams_arr = [
-        [Streams.selectsort_stream, "Selection Sort"],
+        # [Streams.selectsort_stream, "Selection Sort"],
         [Streams.shellsort_stream, "Shell Sort"],
         # [Streams.quicksort_stream, "Quick Sort"],
         [Streams.quicksort_norec_stream, "Quick Sort (Stack)"],
         [Streams.heapsort_stream, "Heapsort"],
+        [Streams.timsort_stream, "Timsort"],
         # [Streams.mergesort_stream, "Merge Sort"],
         # [Streams.radix_stream, "Radix Sort"],
         # [Streams.bogosort_stream, "Bogosort"],

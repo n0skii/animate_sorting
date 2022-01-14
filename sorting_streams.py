@@ -264,3 +264,74 @@ class Streams(object):
             yield from heapify(i, 0)
 
         yield from Streams.endless_loop(data)
+
+    @staticmethod
+    def timsort_stream(data: np.ndarray):
+        _size = len(data)
+        MIN_MERGE = _size // 8
+
+        def calcMinRun(n):
+            r = 0
+            while n >= MIN_MERGE:
+                r |= n & 1
+                n >>= 1
+            return n + r
+
+        def insertionSort(left, right):
+            for i in range(left + 1, right + 1):
+                j = i
+                while j > left and data[j] < data[j - 1]:
+                    data[j], data[j - 1] = data[j - 1], data[j]
+                    yield data
+                    j -= 1
+
+        def merge(l, m, r):
+            len1, len2 = m - l + 1, r - m
+            left, right = [], []
+            for i in range(0, len1):
+                left.append(data[l + i])
+            for i in range(0, len2):
+                right.append(data[m + 1 + i])
+
+            i, j, k = 0, 0, l
+
+            while i < len1 and j < len2:
+                if left[i] <= right[j]:
+                    data[k] = left[i]
+                    i += 1
+                else:
+                    data[k] = right[j]
+                    j += 1
+                yield data
+
+                k += 1
+
+            while i < len1:
+                data[k] = left[i]
+                yield data
+                k += 1
+                i += 1
+
+            while j < len2:
+                data[k] = right[j]
+                yield data
+                k += 1
+                j += 1
+
+        minRun = calcMinRun(_size)
+
+        for start in range(0, _size, minRun):
+            end = min(start + minRun - 1, _size - 1)
+            yield from insertionSort(start, end)
+
+        size = minRun
+        while size < _size:
+            for left in range(0, _size, 2 * size):
+                mid = min(_size - 1, left + size - 1)
+                right = min((left + 2 * size - 1), (_size - 1))
+                if mid < right:
+                    yield from merge(left, mid, right)
+
+            size = 2 * size
+
+        yield from Streams.endless_loop(data)
